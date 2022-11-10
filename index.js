@@ -1,29 +1,58 @@
-
-alert('bienvenido a musimundo, seleccione el producto que desee')
-const productArray = []
-
-class NewProduct {
-    constructor(id, name, price, stock) {
-        this.id = id
-        this.name = name
-        this.price = price
-        this.stock = stock 
+let productoSeleccionado = parseInt(
+    prompt(
+        'Bienvendidos a Musimundo! Escoge el producto que deseas comprar: 1.iPhone - 2.TV - 3.Ipad - 4.Computador'
+    )
+)
+let seguirComprando = true
+let totalCompra = 0
+let decision
+//arreglo de productos
+const productosArray = []
+//clase producto
+class NewProduct{
+    constructor(id,name,price,stock){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
     }
 }
-const iphone = new NewProduct(1, 'iphone', 600, 20)
-productArray.push(iphone)
-const tv = new NewProduct(2, 'TV', 1000, 40)
-productArray.push(tv)
-const ipad = new NewProduct(3, 'ipad', 200, 30)
-productArray.push(ipad)
-const computador = new NewProduct(4, 'computador', 800, 15)
-productArray.push(computador)
-const selectProd = document.getElementById('lista')
-console.log(productArray)
+const iphone = new NewProduct(1,'iPhone', 600, 20);
+productosArray.push(iphone);
+const tv = new NewProduct(2,'tv', 1000, 40);
+productosArray.push(tv);
+const ipad = new NewProduct(3, 'iPad', 200, 30);
+productosArray.push(ipad);
+const computador = new NewProduct(4, 'computador', 800, 15);
+productosArray.push(computador);
+console.log(productosArray)
 
-productArray.forEach(elemento=>{
-    const optionProd = document.createElement('option')
-    optionProd.innerText = `${elemento.name}: ${elemento.price}`
-    optionProd.setAttribute('id',`${elemento.id}`)
-    selectProd.append(optionProd)
-})
+while (seguirComprando === true) {
+    const producto = productosArray.find(prod=>prod.id === productoSeleccionado)
+    totalCompra = totalCompra + producto.price
+
+    decision = parseInt(prompt('Quieres seguir comprando? 1.Si - 2.No'))
+    if (decision === 1) {
+        productoSeleccionado = parseInt(prompt('Escoge el producto que deseas comprar: 1.iPhone - 2.TV - 3.Ipad - 4.Computador'))
+    }else {
+        seguirComprando = false
+    }
+}
+
+const totalCompraConDescuento = descuento(totalCompra)
+alert(`El total de tu compra es ${totalCompraConDescuento}`)
+
+function descuento(valor) {
+    let descuento = 0
+    if (valor <= 1000) {
+        descuento = 10
+    }else if (valor > 1000 && valor <= 2000) {
+        descuento = 15
+    }else {
+        descuento = 20
+    }
+
+    let valorDescuento = valor * (descuento / 100)
+    let valorFinal = valor - valorDescuento
+    return valorFinal
+}
